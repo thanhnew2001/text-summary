@@ -28,8 +28,8 @@ app = Flask(__name__)
 # tokenizer = AutoTokenizer.from_pretrained("minhtoan/t5-small-vietnamese-news")  
 # model_name = AutoModelForSeq2SeqLM.from_pretrained("minhtoan/t5-small-vietnamese-news")
 
-translator = ctranslate2.Translator("t5-small-ct2")
-tokenizer = transformers.AutoTokenizer.from_pretrained("t5-small")
+translator = ctranslate2.Translator("t5-ct2a")
+tokenizer = transformers.AutoTokenizer.from_pretrained("minhtoan/t5-small-vietnamese-news")
 
 def t5_summary(input_text):
         translator = ctranslate2.Translator("t5-ct2a")

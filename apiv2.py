@@ -14,18 +14,33 @@ app = Flask(__name__)
 #     print("cuda is now used")
 #     model.cuda()
 
-# from transformers import AutoTokenizer
-tokenizer = AutoTokenizer.from_pretrained("minhtoan/t5-small-vietnamese-news")  
-model_name = AutoModelForSeq2SeqLM.from_pretrained("minhtoan/t5-small-vietnamese-news")
+# from hf_hub_ctranslate2 import GeneratorCT2fromHfHub
+# model = GeneratorCT2fromHfHub(
+#         # load in int8 on CUDA
+#         model_name_or_path=model_name,
+#         device="cuda",
+#         compute_type="int8_float16",
+#         # tokenizer=AutoTokenizer.from_pretrained("{ORG}/{NAME}")
+# )
 
-from hf_hub_ctranslate2 import GeneratorCT2fromHfHub
-model = GeneratorCT2fromHfHub(
-        # load in int8 on CUDA
-        model_name_or_path=model_name,
-        device="cuda",
-        compute_type="int8_float16",
-        # tokenizer=AutoTokenizer.from_pretrained("{ORG}/{NAME}")
-)
+# from transformers import AutoTokenizer
+# tokenizer = AutoTokenizer.from_pretrained("minhtoan/t5-small-vietnamese-news")  
+# model_name = AutoModelForSeq2SeqLM.from_pretrained("minhtoan/t5-small-vietnamese-news")
+
+translator = ctranslate2.Translator("t5-small-ct2")
+tokenizer = transformers.AutoTokenizer.from_pretrained("t5-small")
+
+def t5_summary(input_text):
+        translator = ctranslate2.Translator("t5-ct2a")
+        tokenizer = transformers.AutoTokenizer.from_pretrained("minhtoan/t5-small-vietnamese-news")
+        input_tokens = tokenizer.convert_ids_to_tokens(tokenizer.encode(input_text))
+        
+        results = translator.translate_batch([input_tokens])
+        
+        output_tokens = results[0].hypotheses[0]
+        output_text = tokenizer.decode(tokenizer.convert_tokens_to_ids(output_tokens))
+        
+        return output_text
 
 
 @app.route('/summarize', methods=['GET'])
@@ -40,12 +55,8 @@ def summarize_get():
     except ValueError:
         return jsonify({'error': 'max_length must be an integer.'}), 400
 
-    outputs = model.generate(
-      text = [text],
-      max_length=max_length,
-      include_prompt_in_result=False
-    )
-    print(outputs)
+    outputs = t5_summary(text)
+        
     # Return the summary in JSON format
     return jsonify({'summary': outputs[0]})
 
@@ -62,15 +73,13 @@ def summarize_post():
     except ValueError:
         return jsonify({'error': 'max_length must be an integer.'}), 400
     
-    outputs = model.generate(
-      text = [text],
-      max_length=max_length,
-      include_prompt_in_result=False
-    )
-    print(outputs)
+    outputs = t5_summary(text)
+        
     # Return the summary in JSON format
     return jsonify({'summary': outputs[0]})
 
+
+# not use
 def summarize(text, max_length):
     # Ensure text is provided
     if not text:

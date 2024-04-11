@@ -3,6 +3,7 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import torch
 from markupsafe import escape
 from hf_hub_ctranslate2 import GeneratorCT2fromHfHub
+import ctranslate2
 
 app = Flask(__name__)
 

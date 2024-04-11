@@ -1,4 +1,3 @@
-
 from flask import Flask, request, jsonify
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import torch
@@ -14,7 +13,7 @@ if torch.cuda.is_available():
     model.cuda()
 
 @app.route('/summarize', methods=['GET'])
-def summarize_text():
+def summarize_get():
     # Get and sanitize parameters from the request
     text = escape(request.args.get('text', ''))
     max_length = request.args.get('max_length', '150')
@@ -25,6 +24,24 @@ def summarize_text():
     except ValueError:
         return jsonify({'error': 'max_length must be an integer.'}), 400
 
+    return summarize(text, max_length)
+
+@app.route('/summarize', methods=['POST'])
+def summarize_post():
+    # Parse JSON input
+    data = request.get_json(force=True)
+    text = escape(data.get('text', ''))
+    max_length = data.get('max_length', 150)
+    
+    # Validate max_length is an integer
+    try:
+        max_length = int(max_length)
+    except ValueError:
+        return jsonify({'error': 'max_length must be an integer.'}), 400
+
+    return summarize(text, max_length)
+
+def summarize(text, max_length):
     # Ensure text is provided
     if not text:
         return jsonify({'error': 'Text parameter is required.'}), 400

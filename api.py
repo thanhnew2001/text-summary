@@ -10,6 +10,7 @@ tokenizer = AutoTokenizer.from_pretrained("minhtoan/t5-small-vietnamese-news")
 model = AutoModelForSeq2SeqLM.from_pretrained("minhtoan/t5-small-vietnamese-news")
 model.eval()  # Set the model to evaluation mode
 if torch.cuda.is_available():
+    print("cuda is now used")
     model.cuda()
 
 @app.route('/summarize', methods=['GET'])

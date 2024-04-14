@@ -261,5 +261,5 @@ def main():
             file.write(sum_content_vi + "\n")
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

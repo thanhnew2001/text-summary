@@ -2,7 +2,7 @@ import ctranslate2
 import sentencepiece as spm
 
 sp = spm.SentencePieceProcessor()
-sp.load("source.spm")
+sp.load("model2/source.spm")
 
 source = sp.encode("Hello world!", out_type=str)
 

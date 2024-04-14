@@ -7,6 +7,19 @@ snapshot_download(repo_id="Eugenememe/mix-en-vi-4m", token = token)
 from hf_hub_ctranslate2 import TranslatorCT2fromHfHub, GeneratorCT2fromHfHub
 from transformers import AutoTokenizer
 
+import shutil
+import os
+
+# Destination path (current directory)
+destination = os.getcwd() + "/model"
+
+# Move files from the downloaded directory to the destination
+for filename in os.listdir(local_path):
+    shutil.move(os.path.join(local_path, filename), os.path.join(destination, filename))
+
+print("Files moved to the current working directory.")
+
+
 
 model_name = "/root/.cache/huggingface/hub/models--Eugenememe--mix-en-vi-4m/snapshots/f9735b6c75003a36bbabe9d992b8b05625b6b871"
 # use either TranslatorCT2fromHfHub or GeneratorCT2fromHfHub here, depending on model.

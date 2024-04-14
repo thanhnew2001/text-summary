@@ -14,4 +14,4 @@ def perform_translation(text, model_dir):
     return translated_text, end_time - start_time
 
 
-perform_translation("Hello how are you", "en-vi")
+perform_translation("Hello how are you", "model2")

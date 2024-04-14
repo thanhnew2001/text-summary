@@ -10,8 +10,16 @@ from transformers import AutoTokenizer
 import shutil
 import os
 
+# Define the repository ID on Hugging Face Hub
+repo_id = "Eugenememe/mix-en-vi-4m"
+
+# Use snapshot_download to download the repository to the current folder
+local_path = snapshot_download(repo_id=repo_id, token=token)
+
+print(f"Repository downloaded to: {local_path}")
+
 # Destination path (current directory)
-destination = os.getcwd() + "/model"
+destination = os.getcwd() + "/mix-en-vi-4m"
 
 # Move files from the downloaded directory to the destination
 for filename in os.listdir(local_path):
@@ -21,7 +29,7 @@ print("Files moved to the current working directory.")
 
 
 
-model_name = "/root/.cache/huggingface/hub/models--Eugenememe--mix-en-vi-4m/snapshots/f9735b6c75003a36bbabe9d992b8b05625b6b871"
+model_name = "mix-en-vi-4m"
 # use either TranslatorCT2fromHfHub or GeneratorCT2fromHfHub here, depending on model.
 model = TranslatorCT2fromHfHub(
         # load in int8 on CUDA

@@ -21,6 +21,13 @@ print(f"Repository downloaded to: {local_path}")
 # Destination path (current directory)
 destination = os.getcwd() + "/mix-en-vi-4m"
 
+# Check if the directory exists, and create it if it does not
+if not os.path.exists(destination):
+    os.makedirs(destination)
+    print(f"Created directory: {destination}")
+else:
+    print(f"Directory already exists: {destination}")
+
 # Move files from the downloaded directory to the destination
 for filename in os.listdir(local_path):
     shutil.move(os.path.join(local_path, filename), os.path.join(destination, filename))

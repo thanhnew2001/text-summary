@@ -22,4 +22,10 @@ def download_model(model_name, token, save_directory):
 # Replace 'your_model_name_here' with the actual model name
 # Replace 'your_huggingface_token_here' with your actual token
 # Replace 'path_to_save_directory' with the path where you want to save the model and tokenizer
-download_model('Eugenememe/mix-en-vi-4m', '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', 'model2')
+download_model('Eugenememe/mix-en-vi-4m', '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', 'model-en-vi')
+download_model('Eugenememe/mix-vi-en-1m', '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', 'model-vi-en')
+
+
+
+
+

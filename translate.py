@@ -1,4 +1,5 @@
 from hf_hub_ctranslate2 import TranslatorCT2fromHfHub, GeneratorCT2fromHfHub
+from transformers import AutoTokenizer
 
 
 def perform_translation(text, model_dir):

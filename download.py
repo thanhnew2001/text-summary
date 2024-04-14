@@ -1,32 +1,26 @@
-from transformers import AutoModel, AutoTokenizer
+"""
+HOW TO USE
+
+enter: huggingface-cli login
+enter: hhuggingface token
+enter: y
+
+"""
+
 import os
+import subprocess
 
+# List of models to convert
+models = ["mix-en-vi-4m", "mix-vi-en-1m"]
 
-def download_model(model_name, token, save_directory):
-    # # Setting up authentication token
-    os.environ["HF_TOKEN"] = token
+# Base command without the model name
+base_command = "ct2-transformers-converter --model {} --output_dir {} --force --copy_files generation_config.json tokenizer_config.json vocab.json source.spm .gitattributes target.spm --quantization float16"
 
-    # Create the directory if it does not exist
-    if not os.path.exists(save_directory):
-        os.makedirs(save_directory)
+for model in models:
+    # Replace the model placeholder with the current model name
+    command = base_command.format(f"Eugenememe/{model}", f"./models/ct2fast-{model}")
 
-    # Downloading the model and tokenizer
-    model = AutoModel.from_pretrained(model_name)
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    # Execute the command
+    subprocess.run(command, shell=True, check=True)
 
-    # Saving model and tokenizer
-    model.save_pretrained(save_directory)
-    tokenizer.save_pretrained(save_directory)
-
-    print(f"Model and tokenizer have been saved to {save_directory}")
-
-
-# Replace 'your_model_name_here' with the actual model name
-# Replace 'your_huggingface_token_here' with your actual token
-# Replace 'path_to_save_directory' with the path where you want to save the model and tokenizer
-download_model(
-    "Eugenememe/mix-en-vi-4m", "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", "model-en-vi"
-)
-download_model(
-    "Eugenememe/mix-vi-en-1m", "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", "model-vi-en"
-)
+    print(f"Conversion completed for model: {model}")

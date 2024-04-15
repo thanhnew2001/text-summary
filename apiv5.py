@@ -111,7 +111,7 @@ def translate_post():
     return translate(text, model)
 
 @app.route("/summarize", methods=["POST"])
-def summarize_post_en():
+def summarize_post():
     # Parse JSON input
     data = request.get_json(force=True)
     text = escape(data.get("text", ""))
@@ -126,7 +126,7 @@ def summarize_post_en():
     return summarize_text(text, max_length)
     
 @app.route("/translate_summarize", methods=["POST"])
-def summarize_post_vi():
+def translate_summarize():
     # Parse JSON input
     data = request.get_json(force=True)
     text = escape(data.get("text", ""))

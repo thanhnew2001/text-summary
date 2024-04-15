@@ -85,7 +85,7 @@ def translate_post():
     # Parse JSON input
     data = request.get_json(force=True)
     text = escape(data.get("text", ""))
-    model =  escape(data.get("model", model_vi_en))
+    model =  escape(data.get("model", "en_vi"))
     max_length = data.get("max_length", 150)
 
     # Validate max_length is an integer
@@ -94,7 +94,12 @@ def translate_post():
     except ValueError:
         return jsonify({"error": "max_length must be an integer."}), 400
 
-    return translate([text], model)
+    model_name = None
+    if model == 'en_vi':
+        model_name = model_en_vi
+    else:
+        model_name = model_vi_en
+    return translate([text], model_name)
 
 @app.route("/summarize", methods=["POST"])
 def summarize_post_en():

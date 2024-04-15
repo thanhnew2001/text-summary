@@ -44,6 +44,21 @@ model_vi_en = TranslatorCT2fromHfHub(
     tokenizer=AutoTokenizer.from_pretrained("models/ct2fast-mix-vi-en-4m"),
 )
 
+def escape_quotes(text):
+    # Replace single quotes with escaped single quotes
+    text = text.replace(chr(39), chr(92) + chr(39))  # 39 is ' and 92 is backslash
+    
+    # Replace double quotes with escaped double quotes
+    text = text.replace(chr(34), chr(92) + chr(34))  # 34 is " and 92 is backslash
+    
+    return text
+
+# Example usage
+sample_text = "This is a 'test' with \"quotes\" to escape."
+escaped_text = escape_quotes(sample_text)
+print(escaped_text)
+
+
 def translate(text, model):
     outputs = model.generate(
         text=[text],
@@ -124,8 +139,11 @@ def summarize_post_vi():
         return jsonify({"error": "max_length must be an integer."}), 400
 
     translated_text = translate(text, model_vi_en)
+    print(translated_text)
     summarized_text = summarize_text(translated_text, max_length)
+    print(summarized_text)
     translated_summarized_text = translate(text, model_en_vi)
+    print(translated_summarized_text)
     return translated_summarized_text
 
 if __name__ == "__main__":

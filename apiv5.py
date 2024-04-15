@@ -46,7 +46,7 @@ model_vi_en = TranslatorCT2fromHfHub(
 
 def translate(text, model):
     outputs = model.generate(
-        text=["How do you call a fast Flan-ingo?", "User: How are you doing?"],
+        text=[text],
     )
     print(outputs)
     return outputs

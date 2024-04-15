@@ -57,7 +57,7 @@ def translate(text, model_name):
         text=["How do you call a fast Flan-ingo?", "User: How are you doing?"],
     )
     print(outputs)
-    return outputs[]
+    return outputs
 
 
 def summarize_text(text, max_length):

@@ -27,7 +27,9 @@ tokenizer = T5Tokenizer.from_pretrained(
 )
 model_summary = AutoModelForSeq2SeqLM.from_pretrained(
     "mrm8488/t5-base-finetuned-summarize-news"
-)
+).to('cuda')
+
+
 
 model_en_vi = TranslatorCT2fromHfHub(
     model_name_or_path="models/ct2fast-mix-en-vi-4m",

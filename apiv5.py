@@ -140,9 +140,9 @@ def translate_summarize():
 
     translated_text = translate(text, model_vi_en)
     print(translated_text)
-    summarized_text = summarize_text(translated_text[0], max_length)
+    summarized_text = summarize_text(translated_text, max_length)
     print(summarized_text)
-    translated_summarized_text = translate(summarized_text[0], model_en_vi)
+    translated_summarized_text = translate(summarized_text, model_en_vi)
     print(translated_summarized_text)
     return translated_summarized_text
 

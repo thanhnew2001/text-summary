@@ -30,8 +30,7 @@ print(answer)
 
 question = "Can the ceiling increase or decrease during project implementation?"
 text = f"""
-burping in the project. Note: If the project design requires it, the disbursement percentage for one or more items reaching 100 percent is possible provided that the entire cost of the Bank's project is within the framework of the Bank's specifications. amount of national funding for cost sharing. 41. For projects in countries that have not yet adopted country financing parameters or have not yet adopted Operational Policy 6.00, see appendix I. 42. The Bank may require the borrower to implement certain activities before withdrawing capital from the loan. These conditions are specified in the legal agreement. Expenditures Expenditure categories Disbursement rates Disbursement conditions 14151415 expenditures governed by such conditions will be clearly separated from the remaining expenditures in the project and classified as separate expenditures, so the Bank can check and monitor things
-sue carefully. The following are a few examples of situations where disbursement conditions on a portion of a loan are common:"""
+burping in the project. Note: If the project design requires it, the disbursement percentage for one or more items reaching The following are a few examples of situations where disbursement conditions on a portion of a loan are common:"""
 
 # Tokenize input (question and text/context)
 inputs = tokenizer(question, text, return_tensors="pt")

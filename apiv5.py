@@ -44,38 +44,20 @@ model_vi_en = TranslatorCT2fromHfHub(
     tokenizer=AutoTokenizer.from_pretrained("models/ct2fast-mix-vi-en-4m"),
 )
 
-def translate(text, model):
-    # Function to split text into chunks of complete sentences with each chunk having less than 500 characters
-    def split_text_into_chunks(text, max_length=500):
-        sentences = re.split(r'(?<=[.!?]) +', text)  # Split text into sentences
-        chunks = []
-        current_chunk = ""
-
-        for sentence in sentences:
-            if len(current_chunk) + len(sentence) < max_length:
-                current_chunk += sentence + " "
-            else:
-                chunks.append(current_chunk.strip())
-                current_chunk = sentence + " "
-        if current_chunk:
-            chunks.append(current_chunk.strip())
-
-        return chunks
-
-    # Split the text if it's longer than 500 characters
-    if len(text) > 500:
-        chunks = split_text_into_chunks(text)
-    else:
-        chunks = [text]
-
-    # Translate each chunk
-    translations = model.generate(text=chunks)
-
-    # Combine the translated chunks back into a single string
-    translated_text = " ".join(translations)
-    
-    print(translated_text)
-    return translated_text
+def translate(text, model_name):
+    # use either TranslatorCT2fromHfHub or GeneratorCT2fromHfHub here, depending on model.
+    model = TranslatorCT2fromHfHub(
+        # load in int8 on CUDA
+        model_name_or_path=model_name,
+        device="cuda",
+        compute_type="int8_float16",
+        tokenizer=AutoTokenizer.from_pretrained(model_name)
+    )
+    outputs = model.generate(
+        text=["How do you call a fast Flan-ingo?", "User: How are you doing?"],
+    )
+    print(outputs)
+    return outputs[]
 
 
 def summarize_text(text, max_length):
@@ -112,7 +94,7 @@ def translate_post():
     except ValueError:
         return jsonify({"error": "max_length must be an integer."}), 400
 
-    return translate(text, model)
+    return translate([text], model)
 
 @app.route("/summarize", methods=["POST"])
 def summarize_post_en():

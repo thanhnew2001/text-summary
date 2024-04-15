@@ -1,15 +1,31 @@
-from transformers import DistilBertTokenizer, DistilBertModel
+from transformers import DistilBertTokenizer, DistilBertForQuestionAnswering
 import torch
+
+# Initialize tokenizer and model
 tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-cased-distilled-squad')
-model = DistilBertModel.from_pretrained('distilbert-base-cased-distilled-squad')
+model = DistilBertForQuestionAnswering.from_pretrained('distilbert-base-cased-distilled-squad')
 
-question, text = "Who was Jim Henson?", "Jim Henson was a nice puppet"
+# Define question and context
+question, text = "Who was Jim Henson?", "Jim Henson was a nice puppeteer."
 
+# Tokenize input (question and text/context)
 inputs = tokenizer(question, text, return_tensors="pt")
+
+# Predict answer spans using the model
 with torch.no_grad():
     outputs = model(**inputs)
 
-print(outputs)
+# Retrieve the most likely start and end of answer indices
+answer_start_scores, answer_end_scores = outputs.start_logits, outputs.end_logits
+answer_start = torch.argmax(answer_start_scores)
+answer_end = torch.argmax(answer_end_scores) + 1  # Add 1 to include the end index in the slice
+
+# Convert indices to tokens, then tokens to string to get the answer
+answer_tokens = inputs.input_ids[0, answer_start:answer_end]
+answer = tokenizer.decode(answer_tokens)
+
+print(answer)
+
 
 
 # question = "Mức trần có thể tăng giảm trong thời gian triển khai dự án không ?"

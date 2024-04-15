@@ -147,4 +147,4 @@ def translate_summarize():
     return translated_summarized_text
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5002)

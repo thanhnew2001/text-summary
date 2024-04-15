@@ -139,12 +139,12 @@ def translate_summarize():
         return jsonify({"error": "max_length must be an integer."}), 400
 
     translated_text = translate(text, model_vi_en)
-    print(translated_text)
-    summarized_text = summarize_text(translated_text, max_length)
-    print(summarized_text)
-    translated_summarized_text = translate(text, model_en_vi)
-    print(translated_summarized_text)
-    return translated_summarized_text
+    print(translated_text[0])
+    summarized_text = summarize_text(translated_text[0], max_length)
+    print(summarized_text[0])
+    translated_summarized_text = translate(summarized_text[0], model_en_vi)
+    print(translated_summarized_text[0])
+    return translated_summarized_text[0]
 
 if __name__ == "__main__":
     app.run(debug=True)

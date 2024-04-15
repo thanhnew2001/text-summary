@@ -127,7 +127,7 @@ def summarize_post_en():
     except ValueError:
         return jsonify({"error": "max_length must be an integer."}), 400
 
-    return summarize(text, max_length)
+    return summarize_text(text, max_length)
     
 @app.route("/translate_summarize", methods=["POST"])
 def summarize_post_vi():

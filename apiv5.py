@@ -51,6 +51,7 @@ def translate(text, model):
     print(outputs)
     return outputs
 
+print(translate("Liên kết Khách hàng là một dịch vụ được cung cấp bởi Ngân hàng Thế giới cho phép khách hàng đăng ký và truy cập thông tin về các dự án của họ, hồ sơ vay, tình trạng vay, chi tiết giải ngân, phí vay, các giao dịch mua sắm đấu thầu, hiệp định pháp lý và các tài liệu dự án liên quan. Khách hàng có thể sử dụng Liên kết Khách hàng để theo dõi và quản lý các thông tin liên quan đến các khoản vay và dự án của họ, cũng như cung cấp thông tin cần thiết cho việc giải ngân các khoản tiền của dự án trên mạng. Để đăng ký và sử dụng dịch vụ này, khách hàng có thể liên hệ với nhân viên của Ngân hàng Thế giới hoặc truy cập trang web chính thức của Liên kết Khách hàng để yêu cầu đăng ký", model_vi_en))
 
 def summarize_text(text, max_length):
     # Ensure text is provided

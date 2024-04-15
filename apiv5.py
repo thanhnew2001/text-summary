@@ -75,7 +75,7 @@ def translate(text, model):
     return translated_text
 
 
-def summarize(text, max_length):
+def summarize_text(text, max_length):
     # Ensure text is provided
     if not text:
         return jsonify({'error': 'Text parameter is required.'}), 400

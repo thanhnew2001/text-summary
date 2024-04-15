@@ -63,8 +63,8 @@ def translate(text, model):
     outputs = model.generate(
         text=[text],
     )
-    print(outputs)
-    return outputs
+
+    return outputs[0]
 
 print(translate("Liên kết Khách hàng là một dịch vụ được cung cấp bởi Ngân hàng Thế giới cho phép khách hàng đăng ký và truy cập thông tin về các dự án của họ, hồ sơ vay, tình trạng vay, chi tiết giải ngân, phí vay, các giao dịch mua sắm đấu thầu, hiệp định pháp lý và các tài liệu dự án liên quan. Khách hàng có thể sử dụng Liên kết Khách hàng để theo dõi và quản lý các thông tin liên quan đến các khoản vay và dự án của họ, cũng như cung cấp thông tin cần thiết cho việc giải ngân các khoản tiền của dự án trên mạng. Để đăng ký và sử dụng dịch vụ này, khách hàng có thể liên hệ với nhân viên của Ngân hàng Thế giới hoặc truy cập trang web chính thức của Liên kết Khách hàng để yêu cầu đăng ký", model_vi_en))
 
@@ -139,12 +139,12 @@ def translate_summarize():
         return jsonify({"error": "max_length must be an integer."}), 400
 
     translated_text = translate(text, model_vi_en)
-    print(translated_text[0])
+    print(translated_text)
     summarized_text = summarize_text(translated_text[0], max_length)
-    print(summarized_text[0])
+    print(summarized_text)
     translated_summarized_text = translate(summarized_text[0], model_en_vi)
-    print(translated_summarized_text[0])
-    return translated_summarized_text[0]
+    print(translated_summarized_text)
+    return translated_summarized_text
 
 if __name__ == "__main__":
     app.run(debug=True)

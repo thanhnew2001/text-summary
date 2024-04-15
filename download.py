@@ -1,31 +1,43 @@
-from transformers import AutoModel, AutoTokenizer
-import os
+"""
+Remember to log in to Hugging Face
+enter: huggingface-cli login
+enter: hhuggingface token
+enter: y
 
-def download_model(model_name, token, save_directory):
-    # # Setting up authentication token
-    os.environ["HF_TOKEN"] = token
+"""
 
-    # Create the directory if it does not exist
-    if not os.path.exists(save_directory):
-        os.makedirs(save_directory)
+import subprocess
+from transformers import (
+    AutoTokenizer,
+    AutoModelForSeq2SeqLM,
+    T5Tokenizer,
+    # AutoModelWithLMHead,
+)
 
-    # Downloading the model and tokenizer
-    model = AutoModel.from_pretrained(model_name)
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
+# List of models to convert
+models = ["mix-en-vi-4m", "mix-vi-en-4m"]
 
-    # Saving model and tokenizer
-    model.save_pretrained(save_directory)
-    tokenizer.save_pretrained(save_directory)
+# Base command without the model name
+base_command = "ct2-transformers-converter --model {} --output_dir {} --force --copy_files generation_config.json tokenizer_config.json vocab.json source.spm .gitattributes target.spm --quantization float16"
 
-    print(f"Model and tokenizer have been saved to {save_directory}")
+for model in models:
+    # Replace the model placeholder with the current model name
+    command = base_command.format(f"Eugenememe/{model}", f"./models/ct2fast-{model}")
 
-# Replace 'your_model_name_here' with the actual model name
-# Replace 'your_huggingface_token_here' with your actual token
-# Replace 'path_to_save_directory' with the path where you want to save the model and tokenizer
-download_model('Eugenememe/mix-en-vi-4m', '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', 'model-en-vi')
-download_model('Eugenememe/mix-vi-en-1m', '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', 'model-vi-en')
+    # Execute the command
+    subprocess.run(command, shell=True, check=True)
 
-
-
+    print(f"Conversion completed for model: {model}")
 
 
+# # Load the summarization model and tokenizer
+# tokenizer = T5Tokenizer.from_pretrained(
+#     "mrm8488/t5-base-finetuned-summarize-news", legacy=False
+# )
+# model_summary = AutoModelForSeq2SeqLM.from_pretrained(
+#     "mrm8488/t5-base-finetuned-summarize-news"
+# )
+
+# # Save model and tokenizer
+# model_summary.save_pretrained("models/t5-base-summarize-news")
+# tokenizer.save_pretrained("models/t5-base-summarize-news")

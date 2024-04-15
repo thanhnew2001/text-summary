@@ -15,6 +15,9 @@ from transformers import (
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List
 
+from flask import Flask, request, jsonify
+from markupsafe import escape
+
 app = Flask(__name__)
 
 # Load the summarization model and tokenizer

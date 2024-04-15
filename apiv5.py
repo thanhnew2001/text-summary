@@ -93,7 +93,7 @@ def translate_post():
         model = model_en_vi
     else:
         model = model_vi_en
-    return translate([text], model)
+    return translate(text, model)
 
 @app.route("/summarize", methods=["POST"])
 def summarize_post_en():

@@ -1,6 +1,7 @@
 import nltk
 import re
 import os
+import torch
 
 from time import time
 from nltk.tokenize import sent_tokenize

@@ -75,21 +75,25 @@ def translate(text, model):
     return translated_text
 
 
-def summarize_text(text, max_length):
-  input_ids = tokenizer.encode(
-            text, return_tensors="pt", add_special_tokens=True
-        )
-  generated_ids = model_summary.generate(
-            input_ids,
+def summarize(text, max_length):
+    # Ensure text is provided
+    if not text:
+        return jsonify({'error': 'Text parameter is required.'}), 400
+
+    # Summarize
+    tokenized_text = tokenizer.encode(text, return_tensors="pt")
+    if torch.cuda.is_available():
+        tokenized_text = tokenized_text.cuda()
+    summary_ids = model_summary.generate(
+            tokenized_text,
             num_beams=4,
             max_length=max_length,
             repetition_penalty=2.0,
             length_penalty=1,
             early_stopping=True,
-        )
-  output = tokenizer.decode(generated_ids, skip_special_tokens=True, clean_up_tokenization_spaces=True)
-  return output
-
+    )
+    summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+    return summary
 
 def summarize(text, max_length):
   translated_text = translate(text, model_vi_en)

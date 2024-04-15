@@ -44,15 +44,7 @@ model_vi_en = TranslatorCT2fromHfHub(
     tokenizer=AutoTokenizer.from_pretrained("models/ct2fast-mix-vi-en-4m"),
 )
 
-def translate(text, model_name):
-    # use either TranslatorCT2fromHfHub or GeneratorCT2fromHfHub here, depending on model.
-    model = TranslatorCT2fromHfHub(
-        # load in int8 on CUDA
-        model_name_or_path=model_name,
-        device="cuda",
-        compute_type="int8_float16",
-        tokenizer=AutoTokenizer.from_pretrained(model_name)
-    )
+def translate(text, model):
     outputs = model.generate(
         text=["How do you call a fast Flan-ingo?", "User: How are you doing?"],
     )
@@ -85,7 +77,7 @@ def translate_post():
     # Parse JSON input
     data = request.get_json(force=True)
     text = escape(data.get("text", ""))
-    model =  escape(data.get("model", "en_vi"))
+    model_name =  escape(data.get("model", "en_vi"))
     max_length = data.get("max_length", 150)
 
     # Validate max_length is an integer
@@ -94,12 +86,12 @@ def translate_post():
     except ValueError:
         return jsonify({"error": "max_length must be an integer."}), 400
 
-    model_name = None
-    if model == 'en_vi':
-        model_name = model_en_vi
+    model = None
+    if model_name == 'en_vi':
+        model = model_en_vi
     else:
-        model_name = model_vi_en
-    return translate([text], model_name)
+        model = model_vi_en
+    return translate([text], model)
 
 @app.route("/summarize", methods=["POST"])
 def summarize_post_en():

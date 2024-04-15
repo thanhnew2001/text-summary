@@ -103,7 +103,7 @@ def translate_post():
     # Parse JSON input
     data = request.get_json(force=True)
     text = escape(data.get("text", ""))
-    model =  escape(data.get("model", model-vi-en))
+    model =  escape(data.get("model", model_vi_en))
     max_length = data.get("max_length", 150)
 
     # Validate max_length is an integer

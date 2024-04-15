@@ -98,15 +98,24 @@ def summarize_text(text, max_length):
     summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
     return summary
 
-def summarize(text, max_length):
-  translated_text = translate(text, model_vi_en)
-  summarized_text = summarize_text(translated_text, max_length)
-  translated_summarized_text = translate(text, model_en_vi)
-  return translated_summarized_text
+@app.route("/translate", methods=["POST"])
+def translate_post():
+    # Parse JSON input
+    data = request.get_json(force=True)
+    text = escape(data.get("text", ""))
+    model =  escape(data.get("model", model-vi-en))
+    max_length = data.get("max_length", 150)
 
+    # Validate max_length is an integer
+    try:
+        max_length = int(max_length)
+    except ValueError:
+        return jsonify({"error": "max_length must be an integer."}), 400
+
+    return translate(text, model)
 
 @app.route("/summarize", methods=["POST"])
-def summarize_post():
+def summarize_post_en():
     # Parse JSON input
     data = request.get_json(force=True)
     text = escape(data.get("text", ""))
@@ -119,6 +128,24 @@ def summarize_post():
         return jsonify({"error": "max_length must be an integer."}), 400
 
     return summarize(text, max_length)
+    
+@app.route("/translate_summarize", methods=["POST"])
+def summarize_post_vi():
+    # Parse JSON input
+    data = request.get_json(force=True)
+    text = escape(data.get("text", ""))
+    max_length = data.get("max_length", 150)
+
+    # Validate max_length is an integer
+    try:
+        max_length = int(max_length)
+    except ValueError:
+        return jsonify({"error": "max_length must be an integer."}), 400
+
+    translated_text = translate(text, model_vi_en)
+    summarized_text = summarize_text(translated_text, max_length)
+    translated_summarized_text = translate(text, model_en_vi)
+    return translated_summarized_text
 
 if __name__ == "__main__":
     app.run(debug=True)
